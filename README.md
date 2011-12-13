@@ -174,6 +174,10 @@ Benefits:
 * transparently uses component's original interface
 * class is the component
 
+Drawbacks:
+
+* redefines `class`
+
 How it's used:
 
     require 'delegate'
