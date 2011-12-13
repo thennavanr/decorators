@@ -69,9 +69,3 @@ describe "Benefits" do
     Coffee.new.decorate_with(Sugar, Sugar, Sugar, Sugar).cost.round(2).should == 2.8
   end
 end
-
-describe "Drawbacks" do
-  it "class is the final decorator" do
-    Coffee.new.decorate_with(Milk, Sugar).class == Sugar
-  end
-end

@@ -19,7 +19,6 @@ Benefits:
 
 Drawbacks:
 
-* type is of the final decorator
 * uses `method_missing`
 
 How it's used:
@@ -57,7 +56,6 @@ How it's used:
     coffee.decorate_with(Milk, Sugar).cost                # 2.6
     coffee.decorate_with(Sugar, Sugar, Sugar, Sugar).cost # 2.8
     coffee.decorate_with(Milk, Sugar).origin              # Columbia
-    coffee.decorate_with(Milk, Sugar).class               # Sugar
 
 Module + Extend + Super Decorator
 ---------------------------------
@@ -67,7 +65,6 @@ Module + Extend + Super Decorator
 Benefits:
 
 * delegates through all decorators
-* type is of the component
 * has the original interface because it is the original object
 
 Drawbacks:
@@ -105,7 +102,6 @@ How it's used:
     coffee = Coffee.new
     coffee.decorate_with(Milk, Sugar).cost # 2.6
     coffee.decorate_with(Sugar).origin     # Columbia
-    coffee.decorate_with(Milk).class       # Coffee
 
 Plain Old Ruby Object Decorator
 -------------------------------
@@ -121,7 +117,6 @@ Benefits:
 Drawbacks:
 
 * cannot transparently use component's original interface
-* type is of the final decorator
 
 How it's used:
 
@@ -159,7 +154,6 @@ How it's used:
     Sugar.new(Milk.new(coffee)).cost  # 2.6
     Sugar.new(Sugar.new(coffee)).cost # 2.4
     Milk.new(coffee).origin           # NoMethodError
-    Sugar.new(Milk.new(coffee)).class # Sugar
 
 SimpleDelegator + Super + Getobj Decorator
 ---------------------------------
