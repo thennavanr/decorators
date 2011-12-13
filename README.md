@@ -3,10 +3,10 @@ Decorators
 
 Comparing and contrasting different styles of decorators in Ruby.
 
-Class Decorator
----------------
+Class-Method-Missing Decorator
+------------------------------
 
-    rspec spec/class_decorator_spec.rb
+    rspec spec/class_method_missing_spec.rb
 
 Benefits:
 
@@ -50,10 +50,10 @@ How it's used:
       end
     end
 
-Module Decorator
-----------------
+Module-Extend-Super Decorator
+-----------------------------
 
-    rspec spec/module_decorator_spec.rb
+    rspec spec/module_extend_super_spec.rb
 
 Benefits:
 
@@ -93,10 +93,10 @@ How it's used:
       end
     end
 
-Pure Ruby Decorator
--------------------
+Plain Old Ruby Object Decorator
+-------------------------------
 
-    rspec spec/ruby_decorator_spec.rb
+    rspec spec/plain_old_ruby_object_spec.rb
 
 Benefits:
 
