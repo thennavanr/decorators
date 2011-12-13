@@ -1,3 +1,5 @@
+require 'delegate'
+
 class Coffee
   def cost
     2
@@ -8,23 +10,15 @@ class Coffee
   end
 end
 
-class Milk
-  def initialize(component)
-    @component = component
-  end
-
+class Milk < SimpleDelegator
   def cost
-    @component.cost + 0.4
+    super + 0.4
   end
 end
 
-class Sugar
-  def initialize(component)
-    @component = component
-  end
-
+class Sugar < SimpleDelegator
   def cost
-    @component.cost + 0.2
+    super + 0.2
   end
 end
 
@@ -36,13 +30,13 @@ describe "Benefits" do
   it "can use same decorator more than once on component" do
     Sugar.new(Sugar.new(Coffee.new)).cost.round(2).should == 2.4
   end
+
+  it "can transparently use component's original interface" do
+    Milk.new(Coffee.new).origin.should == "Colombia"
+  end
 end
 
 describe "Drawbacks" do
-  it "cannot transparently use component's original interface" do
-    expect { Milk.new(Coffee.new).origin }.to raise_error(NoMethodError)
-  end
-
   it "type is of the final decorator" do
     Sugar.new(Milk.new(Coffee.new)).should be_kind_of(Sugar)
   end

@@ -49,20 +49,20 @@ class Sugar
 end
 
 describe "Benefits" do
-  it "delegates through all decorators" do
-    Coffee.new.decorate_with(Milk, Sugar).cost.should == 2.6
-  end
-
   it "can be wrapped infinitely using Ruby instantiation" do
     Sugar.new(Milk.new(Coffee.new)).cost.should == 2.6
   end
 
-  it "can use same decorator more than once on component" do
-    Coffee.new.decorate_with(Sugar, Sugar, Sugar, Sugar).cost.round(2).should == 2.8
+  it "delegates through all decorators" do
+    Coffee.new.decorate_with(Milk, Sugar).cost.should == 2.6
   end
 
   it "transparently uses component's original interface" do
-    Milk.new(Coffee.new).origin.should == "Colombia"
+    Coffee.new.decorate_with(Milk, Sugar).origin.should == "Colombia"
+  end
+
+  it "can use same decorator more than once on component" do
+    Coffee.new.decorate_with(Sugar, Sugar, Sugar, Sugar).cost.round(2).should == 2.8
   end
 end
 

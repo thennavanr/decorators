@@ -3,15 +3,15 @@ Decorators
 
 Comparing and contrasting different styles of decorators in Ruby.
 
-Class-Method-Missing Decorator
-------------------------------
+Class + Method Missing Decorator
+--------------------------------
 
     rspec spec/class_method_missing_spec.rb
 
 Benefits:
 
-* delegates through all decorators
 * can be wrapped infinitely using Ruby instantiation
+* delegates through all decorators
 * can use the same decorator more than once on the same component
 * transparently uses component's original interface
 
@@ -50,8 +50,8 @@ How it's used:
       end
     end
 
-Module-Extend-Super Decorator
------------------------------
+Module + Extend + Super Decorator
+---------------------------------
 
     rspec spec/module_extend_super_spec.rb
 
@@ -100,10 +100,85 @@ Plain Old Ruby Object Decorator
 
 Benefits:
 
-*  delegates through all decorators
-*  can use same decorator more than once on component
+* can be wrapped infinitely using Ruby instantiation
+* delegates through all decorators
+* can use same decorator more than once on component
 
 Drawbacks:
 
-*  cannot transparently use component's original interface
-*  type is of the final decorator
+* cannot transparently use component's original interface
+* type is of the final decorator
+
+How it's used:
+
+    class Coffee
+      def cost
+        2
+      end
+
+      def origin
+        "Colombia"
+      end
+    end
+
+    class Milk
+      def initialize(component)
+        @component = component
+      end
+
+      def cost
+        @component.cost + 0.4
+      end
+    end
+
+    class Sugar
+      def initialize(component)
+        @component = component
+      end
+
+      def cost
+        @component.cost + 0.2
+      end
+    end
+
+SimpleDelegator + Super Decorator
+---------------------------------
+
+    rspec spec/simple_delegator_super_spec.rb
+
+Benefits:
+
+* can be wrapped infinitely using Ruby instantiation
+* delegates through all decorators
+* can use same decorator more than once on component
+* transparently uses component's original interface
+
+Drawbacks:
+
+* type is of the final decorator
+
+How it's used:
+
+    require 'delegate'
+
+    class Coffee
+      def cost
+        2
+      end
+
+      def origin
+        "Colombia"
+      end
+    end
+
+    class Milk < SimpleDelegator
+      def cost
+        super + 0.4
+      end
+    end
+
+    class Sugar < SimpleDelegator
+      def cost
+        super + 0.2
+      end
+    end
