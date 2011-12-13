@@ -67,7 +67,7 @@ describe "Benefits" do
 end
 
 describe "Drawbacks" do
-  it "type is of the final decorator" do
-    Coffee.new.decorate_with(Milk, Sugar).should be_kind_of(Sugar)
+  it "class is the final decorator" do
+    Coffee.new.decorate_with(Milk, Sugar).class == Sugar
   end
 end

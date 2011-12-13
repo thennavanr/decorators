@@ -10,13 +10,19 @@ class Coffee
   end
 end
 
-class Milk < SimpleDelegator
+class Decorator < SimpleDelegator
+  def class
+    __getobj__.class
+  end
+end
+
+class Milk < Decorator
   def cost
     super + 0.4
   end
 end
 
-class Sugar < SimpleDelegator
+class Sugar < Decorator
   def cost
     super + 0.2
   end
@@ -34,10 +40,8 @@ describe "Benefits" do
   it "can transparently use component's original interface" do
     Milk.new(Coffee.new).origin.should == "Colombia"
   end
-end
 
-describe "Drawbacks" do
-  it "type is of the final decorator" do
-    Sugar.new(Milk.new(Coffee.new)).should be_kind_of(Sugar)
+  it "class is the component" do
+    Sugar.new(Milk.new(Coffee.new)).class.should == Coffee
   end
 end

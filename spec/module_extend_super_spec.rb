@@ -36,8 +36,8 @@ describe "Benefits" do
     Coffee.new.decorate_with(Milk, Sugar).cost.should == 2.6
   end
 
-  it "is of a type of the component" do
-    Coffee.new.decorate_with(Milk).should be_kind_of(Coffee)
+  it "class is the component" do
+    Coffee.new.decorate_with(Milk).class.should == Coffee
   end
 
   it "has the original interface because it is the original object" do

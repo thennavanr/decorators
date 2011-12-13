@@ -43,7 +43,7 @@ describe "Drawbacks" do
     expect { Milk.new(Coffee.new).origin }.to raise_error(NoMethodError)
   end
 
-  it "type is of the final decorator" do
-    Sugar.new(Milk.new(Coffee.new)).should be_kind_of(Sugar)
+  it "class is the final decorator" do
+    Sugar.new(Milk.new(Coffee.new)).class.should == Sugar
   end
 end

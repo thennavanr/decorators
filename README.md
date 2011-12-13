@@ -3,6 +3,8 @@ Decorators
 
 Comparing and contrasting different styles of decorators in Ruby.
 
+I use the terms "Decorator" and "Component" in the [Gang of Four](http://www.amazon.com/Design-Patterns-Elements-Reusable-Object-Oriented/dp/0201633612) sense.
+
 Class + Method Missing Decorator
 --------------------------------
 
@@ -141,10 +143,10 @@ How it's used:
       end
     end
 
-SimpleDelegator + Super Decorator
+SimpleDelegator + Super + Getobj Decorator
 ---------------------------------
 
-    rspec spec/simple_delegator_super_spec.rb
+    rspec spec/simple_delegator_super_getobj_spec.rb
 
 Benefits:
 
@@ -152,10 +154,7 @@ Benefits:
 * delegates through all decorators
 * can use same decorator more than once on component
 * transparently uses component's original interface
-
-Drawbacks:
-
-* type is of the final decorator
+* class is the component
 
 How it's used:
 
@@ -171,13 +170,19 @@ How it's used:
       end
     end
 
-    class Milk < SimpleDelegator
+    class Decorator < SimpleDelegator
+      def class
+        __getobj__.class
+      end
+    end
+
+    class Milk < Decorator
       def cost
         super + 0.4
       end
     end
 
-    class Sugar < SimpleDelegator
+    class Sugar < Decorator
       def cost
         super + 0.2
       end
