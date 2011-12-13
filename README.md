@@ -52,6 +52,13 @@ How it's used:
       end
     end
 
+    coffee = Coffee.new
+    Sugar.new(Milk.new(coffee)).cost                      # 2.6
+    coffee.decorate_with(Milk, Sugar).cost                # 2.6
+    coffee.decorate_with(Sugar, Sugar, Sugar, Sugar).cost # 2.8
+    coffee.decorate_with(Milk, Sugar).origin              # Columbia
+    coffee.decorate_with(Milk, Sugar).class               # Sugar
+
 Module + Extend + Super Decorator
 ---------------------------------
 
@@ -94,6 +101,11 @@ How it's used:
         super + 0.2
       end
     end
+
+    coffee = Coffee.new
+    coffee.decorate_with(Milk, Sugar).cost # 2.6
+    coffee.decorate_with(Sugar).origin     # Columbia
+    coffee.decorate_with(Milk).class       # Coffee
 
 Plain Old Ruby Object Decorator
 -------------------------------
@@ -143,6 +155,12 @@ How it's used:
       end
     end
 
+    coffee = Coffee.new
+    Sugar.new(Milk.new(coffee)).cost  # 2.6
+    Sugar.new(Sugar.new(coffee)).cost # 2.4
+    Milk.new(coffee).origin           # NoMethodError
+    Sugar.new(Milk.new(coffee)).class # Sugar
+
 SimpleDelegator + Super + Getobj Decorator
 ---------------------------------
 
@@ -187,3 +205,10 @@ How it's used:
         super + 0.2
       end
     end
+
+    coffee = Coffee.new
+    Sugar.new(Milk.new(coffee)).cost   # 2.6
+    Sugar.new(Sugar.new(coffee)).cost  # 2.4
+    Milk.new(coffee).origin            # Colombia
+    Sugar.new(Milk.new(coffee)).class  # Coffee
+
