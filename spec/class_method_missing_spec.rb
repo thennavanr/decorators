@@ -11,12 +11,16 @@ module Decorator
     @component = component
   end
 
-  def method_missing(method, *args)
-    if args.empty?
-      @component.send(method)
+  def method_missing(meth, *args)
+    if @component.respond_to?(meth)
+      @component.send(meth, *args)
     else
-      @component.send(method, args)
+      super
     end
+  end
+
+  def respond_to?(meth)
+    @component.respond_to?(meth)
   end
 end
 
