@@ -1,5 +1,11 @@
-require 'extensions'
-require Dir.up / "lib" / "module_decorator"
+module Component
+  def decorate_with(*decorators)
+    decorators.each do |decorator|
+      self.extend(decorator)
+    end
+    self
+  end
+end
 
 class Coffee
   include Component
@@ -25,18 +31,22 @@ module Sugar
   end
 end
 
-describe Component do
-  let(:coffee) { Coffee.new }
-
+describe "Benefits" do
   it "delegates through all decorators" do
-    coffee.decorate_with(Milk, Sugar).cost.should == 2.6
+    Coffee.new.decorate_with(Milk, Sugar).cost.should == 2.6
   end
 
   it "is of a type of the component" do
-    coffee.decorate_with(Milk).should be_kind_of(Coffee)
+    Coffee.new.decorate_with(Milk).should be_kind_of(Coffee)
   end
 
   it "has the original interface because it is the original object" do
-    coffee.decorate_with(Sugar).origin.should == "Colombia"
+    Coffee.new.decorate_with(Sugar).origin.should == "Colombia"
+  end
+end
+
+describe "Drawbacks" do
+  it "cannot use same decorator more than once on component" do
+    Coffee.new.decorate_with(Sugar, Sugar, Sugar, Sugar).cost.round(2).should == 2.2
   end
 end

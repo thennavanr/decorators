@@ -1,5 +1,24 @@
-require 'extensions'
-require Dir.up / "lib" / "class_decorator"
+module Component
+  def decorate_with(*decorators)
+    decorators.inject(self) do |object, decorator|
+      decorator.new(object)
+    end
+  end
+end
+
+module Decorator
+  def initialize(component)
+    @component = component
+  end
+
+  def method_missing(method, *args)
+    if args.empty?
+      @component.send(method)
+    else
+      @component.send(method, args)
+    end
+  end
+end
 
 class Coffee
   include Component
@@ -29,28 +48,26 @@ class Sugar
   end
 end
 
-describe Component do
-  let(:coffee) { Coffee.new }
-
+describe "Benefits" do
   it "delegates through all decorators" do
-    coffee.decorate_with(Milk, Sugar).cost.should == 2.6
+    Coffee.new.decorate_with(Milk, Sugar).cost.should == 2.6
   end
 
-  it "type is of the final decorator" do
-    coffee.decorate_with(Milk, Sugar).should be_kind_of(Sugar)
-  end
-
-  it "can use the same decorator more than once on the component" do
-    coffee.decorate_with(Sugar, Sugar, Sugar, Sugar).cost.round(2).should == 2.8
-  end
-end
-
-describe Decorator do
-  it "can be chained infinitely" do
+  it "can be wrapped infinitely using Ruby instantiation" do
     Sugar.new(Milk.new(Coffee.new)).cost.should == 2.6
+  end
+
+  it "can use same decorator more than once on component" do
+    Coffee.new.decorate_with(Sugar, Sugar, Sugar, Sugar).cost.round(2).should == 2.8
   end
 
   it "transparently uses component's original interface" do
     Milk.new(Coffee.new).origin.should == "Colombia"
+  end
+end
+
+describe "Drawbacks" do
+  it "type is of the final decorator" do
+    Coffee.new.decorate_with(Milk, Sugar).should be_kind_of(Sugar)
   end
 end
